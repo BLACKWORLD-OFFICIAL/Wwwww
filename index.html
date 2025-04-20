@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bulk SMS Warning System</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(90deg, #141e30, #243b55);
+      color: white;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    .container {
+      background: rgba(0,0,0,0.6);
+      border-radius: 15px;
+      padding: 25px;
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+      box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+    }
+
+    h1 {
+      font-size: 38px;
+      margin-bottom: 20px;
+      text-shadow: 0 0 10px rgba(255,255,255,0.8);
+    }
+
+    input[type="text"] {
+      width: 80%;
+      padding: 12px;
+      border: 2px solid #fff;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.1);
+      margin: 10px 0;
+    }
+
+    button {
+      background: rgba(255, 0, 0, 0.8);
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-top: 10px;
+      width: 50%;
+    }
+
+    .result {
+      margin-top: 20px;
+      padding: 20px;
+      background: rgba(0,0,0,0.7);
+      border-radius: 15px;
+      font-size: 14px;
+      display: none;
+      text-align: left;
+    }
+
+    .footer {
+      margin-top: 50px;
+      padding: 20px;
+      text-align: center;
+      background: #111;
+    }
+
+    .footer h2 {
+      font-size: 1.5rem;
+      color: #0ff;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Send Warning SMS</h1>
+    <input type="text" id="numbers" placeholder="Enter phone numbers (comma separated)" required />
+    <input type="text" id="message" placeholder="Enter message" required />
+    <button onclick="sendWarning()">Send Warning</button>
+    <div id="responseBox" class="result"></div>
+  </div>
+
+  <div class="footer">
+    <h2>Join Our Channels</h2>
+    <div class="social-links">
+      <a href="https://t.me/TECHBYHUZII" target="_blank">Telegram</a>
+      <a href="https://whatsapp.com/channel/0029VaqyldOC6ZvZ6uSVmg2q" target="_blank">WhatsApp Channel</a>
+    </div>
+  </div>
+
+  <script>
+    async function sendWarning() {
+      const numbers = document.getElementById("numbers").value.trim().split(",");
+      const message = document.getElementById("message").value.trim();
+      const responseBox = document.getElementById("responseBox");
+
+      if (!numbers.length || !message) {
+        alert("Please enter phone numbers and a message.");
+        return;
+      }
+
+      const requestBody = {
+        numbers: numbers,
+        message: message
+      };
+
+      try {
+        const res = await fetch('http://localhost:3000/send_warning', {  // Replace with your API URL
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(requestBody)
+        });
+        const result = await res.json();
+
+        if (result.success) {
+          responseBox.innerHTML = "Warning sent successfully!";
+        } else {
+          responseBox.innerHTML = "Failed to send warnings.";
+        }
+        responseBox.style.display = "block";
+      } catch (error) {
+        responseBox.innerHTML = "Error sending SMS.";
+        responseBox.style.display = "block";
+      }
+    }
+  </script>
+</body>
+</html>
