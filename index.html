@@ -1,136 +1,1246 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Bulk SMS Warning System</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: linear-gradient(90deg, #141e30, #243b55);
-      color: white;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      min-height: 100vh;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BALOCH EARNING PLATFORM</title>
+    <link href="https://fonts.googleapis.com/css2?family=Germania+One&family=Tektur:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --neon-green: #00ff9d;
+            --neon-blue: #0066ff;
+            --dark-bg: #0a0a1a;
+            --text-white: #ffffff;
+            --gold: #ffd700;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-white);
+            margin: 0;
+            min-height: 100vh;
+            transition: background 0.3s;
+            overflow-x: hidden;
+        }
 
-    .container {
-      background: rgba(0,0,0,0.6);
-      border-radius: 15px;
-      padding: 25px;
-      width: 100%;
-      max-width: 400px;
-      text-align: center;
-      box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
-    }
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, var(--neon-blue), var(--neon-green));
+            opacity: 0.1;
+            z-index: -1;
+            animation: backgroundAnim 20s linear infinite;
+        }
 
-    h1 {
-      font-size: 38px;
-      margin-bottom: 20px;
-      text-shadow: 0 0 10px rgba(255,255,255,0.8);
-    }
+        @keyframes backgroundAnim {
+            0% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.2) rotate(180deg); }
+            100% { transform: scale(1) rotate(360deg); }
+        }
 
-    input[type="text"] {
-      width: 80%;
-      padding: 12px;
-      border: 2px solid #fff;
-      border-radius: 10px;
-      background: rgba(255,255,255,0.1);
-      margin: 10px 0;
-    }
+        /* Auth Container - Custom Baloch Style */
+        .auth-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: radial-gradient(circle at center, #1a0a0a, #000);
+            position: relative;
+        }
 
-    button {
-      background: rgba(255, 0, 0, 0.8);
-      color: white;
-      padding: 10px 15px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 16px;
-      margin-top: 10px;
-      width: 50%;
-    }
+        .container {
+            background: rgba(20, 10, 10, 0.9);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 2px solid var(--neon-green);
+            box-shadow: 0 0 20px rgba(0, 255, 157, 0.3);
+            width: 90%;
+            max-width: 450px;
+            animation: glow 2s infinite alternate;
+            backdrop-filter: blur(5px);
+        }
 
-    .result {
-      margin-top: 20px;
-      padding: 20px;
-      background: rgba(0,0,0,0.7);
-      border-radius: 15px;
-      font-size: 14px;
-      display: none;
-      text-align: left;
-    }
+        @keyframes glow {
+            from {
+                box-shadow: 0 0 10px rgba(0, 255, 157, 0.3);
+            }
+            to {
+                box-shadow: 0 0 20px rgba(0, 255, 157, 0.6), 
+                            0 0 30px rgba(0, 102, 255, 0.4);
+            }
+        }
 
-    .footer {
-      margin-top: 50px;
-      padding: 20px;
-      text-align: center;
-      background: #111;
-    }
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
 
-    .footer h2 {
-      font-size: 1.5rem;
-      color: #0ff;
-    }
+        .tab {
+            flex: 1;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.3);
+            border: none;
+            border-radius: 8px;
+            color: var(--neon-green);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Tektur', sans-serif;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
 
-  </style>
+        .tab.active {
+            background: linear-gradient(45deg, var(--neon-green), var(--neon-blue));
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 255, 157, 0.5);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        input {
+            width: 100%;
+            padding: 1rem;
+            margin: 0.8rem 0;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--neon-green);
+            color: white;
+            border-radius: 8px;
+            font-family: 'Roboto', sans-serif;
+            transition: all 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 10px rgba(0, 102, 255, 0.5);
+        }
+
+        button {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(45deg, var(--neon-green), var(--neon-blue));
+            border: none;
+            border-radius: 8px;
+            color: black;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: all 0.3s;
+            font-family: 'Tektur', sans-serif;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 255, 157, 0.5);
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            font-family: 'Tektur', sans-serif;
+        }
+
+        .logo h1 {
+            color: var(--neon-green);
+            text-shadow: 0 0 10px rgba(0, 255, 157, 0.7);
+            margin-bottom: 0.5rem;
+        }
+
+        .logo p {
+            color: var(--neon-blue);
+            font-size: 0.9rem;
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(20, 10, 10, 0.9);
+            border: 1px solid var(--neon-green);
+            border-radius: 8px;
+            padding: 1rem;
+            max-width: 300px;
+            display: none;
+            z-index: 1001;
+            animation: slideIn 0.3s forwards;
+            backdrop-filter: blur(5px);
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .notification.success {
+            border-color: var(--neon-green);
+        }
+
+        .notification.error {
+            border-color: #ff0000;
+        }
+
+        /* Platform Styles */
+        .platform {
+            display: none;
+            padding: 1rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid var(--neon-green);
+            background: rgba(10, 10, 20, 0.8);
+            backdrop-filter: blur(5px);
+        }
+
+        .platform-logo {
+            color: var(--neon-green);
+            font-weight: bold;
+            font-size: 1.5rem;
+            font-family: 'Tektur', sans-serif;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .balance {
+            background: rgba(0, 255, 157, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            border: 1px solid var(--neon-green);
+            font-family: 'Tektur', sans-serif;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-around;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(0, 255, 157, 0.3);
+            margin-bottom: 1rem;
+            background: rgba(10, 10, 20, 0.8);
+            backdrop-filter: blur(5px);
+        }
+
+        .nav-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Tektur', sans-serif;
+        }
+
+        .nav-btn:hover {
+            background: rgba(0, 255, 157, 0.1);
+        }
+
+        .nav-btn.active {
+            background: var(--neon-green);
+            color: black;
+        }
+
+        .section {
+            display: none;
+            padding: 1rem;
+            background: rgba(10, 10, 20, 0.5);
+            border-radius: 10px;
+            margin: 1rem 0;
+            backdrop-filter: blur(5px);
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        /* Plans */
+        .plans-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .plan-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            transition: all 0.3s;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--neon-green);
+        }
+
+        .plan-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, var(--neon-green), transparent);
+            animation: rotate 6s linear infinite;
+            z-index: 0;
+            opacity: 0.5;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .plan-card-content {
+            position: relative;
+            z-index: 1;
+            height: 100%;
+            padding: 1.5rem;
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+
+        .plan-card:hover .plan-card-content {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 255, 157, 0.3);
+        }
+
+        .plan-name {
+            color: var(--gold);
+            margin-bottom: 1rem;
+            font-family: 'Germania One', cursive;
+            font-size: 2rem;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+
+        /* Referral Boxes */
+        .ref-box {
+            background: rgba(0,0,0,0.3);
+            border: 1px solid var(--neon-green);
+            border-radius: 10px;
+            padding: 1rem;
+            margin: 1rem 0;
+            backdrop-filter: blur(5px);
+        }
+
+        .ref-bonus-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .ref-bonus-card {
+            background: rgba(0,0,0,0.3);
+            border: 1px solid var(--neon-green);
+            border-radius: 10px;
+            padding: 1rem;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .ref-bonus-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 255, 157, 0.3);
+        }
+
+        .ref-bonus-card h4 {
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Transactions */
+        .transaction-item {
+            padding: 1rem;
+            margin: 1rem 0;
+            background: rgba(0, 0, 0, 0.2);
+            border-left: 4px solid var(--neon-green);
+            border-radius: 5px;
+            backdrop-filter: blur(5px);
+        }
+
+        /* Withdraw */
+        .withdraw-form {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        /* Admin */
+        .admin-item {
+            padding: 1rem;
+            margin: 1rem 0;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+
+        /* Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: var(--dark-bg);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 2px solid var(--neon-green);
+            width: 90%;
+            max-width: 500px;
+            backdrop-filter: blur(5px);
+        }
+
+        .highlight {
+            color: var(--neon-green);
+            font-weight: bold;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .modal-buttons button {
+            flex: 1;
+        }
+
+        .cancel-btn {
+            background: transparent;
+            border: 1px solid var(--neon-green);
+            color: var(--neon-green);
+        }
+
+        .contact-warning {
+            color: var(--neon-green);
+            font-size: 0.9rem;
+            margin-top: 1rem;
+            text-align: center;
+            padding: 0.5rem;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 5px;
+        }
+
+        /* Thank You Modal */
+        .thank-you-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1002;
+        }
+
+        .thank-you-content {
+            background: var(--dark-bg);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 2px solid var(--neon-green);
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .thank-you-content h2 {
+            color: var(--neon-green);
+            margin-bottom: 1rem;
+        }
+
+        /* Warning Modal */
+        .warning-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1003;
+        }
+
+        .warning-content {
+            background: var(--dark-bg);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 2px solid red;
+            max-width: 500px;
+            text-align: center;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 10px rgba(255,0,0,0.5); }
+            50% { box-shadow: 0 0 30px rgba(255,0,0,0.8); }
+            100% { box-shadow: 0 0 10px rgba(255,0,0,0.5); }
+        }
+
+        .warning-content h2 {
+            color: red;
+            margin-bottom: 1rem;
+        }
+
+        /* Social Icons */
+        .social-fixed {
+            position: fixed;
+            right: 20px;
+            bottom: 80px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 1000;
+        }
+
+        .social-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--neon-green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: black;
+            transition: all 0.3s;
+            box-shadow: 0 0 15px rgba(0, 255, 157, 0.7);
+        }
+
+        .social-icon:hover {
+            transform: scale(1.2);
+            box-shadow: 0 0 20px rgba(0, 255, 157, 1);
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(0,0,0,0.8);
+            padding: 1rem;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            backdrop-filter: blur(5px);
+            border-top: 1px solid var(--neon-green);
+            z-index: 999;
+        }
+
+        footer p {
+            margin: 0;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .plans-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            nav {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .social-fixed {
+                right: 10px;
+                bottom: 70px;
+            }
+
+            .social-icon {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+
+            .modal-content input {
+                padding: 1rem;
+                height: 50px !important;
+            }
+
+            .ref-bonus-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Send Warning SMS</h1>
-    <input type="text" id="numbers" placeholder="Enter phone numbers (comma separated)" required />
-    <input type="text" id="message" placeholder="Enter message" required />
-    <button onclick="sendWarning()">Send Warning</button>
-    <div id="responseBox" class="result"></div>
-  </div>
+    <!-- Auth Section -->
+    <div class="auth-container">
+        <div class="container">
+            <div class="logo">
+                <h1>BALOCH EARNING</h1>
+                <p>Trusted Investment Platform Since 2020</p>
+            </div>
+            
+            <div class="tabs">
+                <button class="tab active" id="loginTab">LOGIN</button>
+                <button class="tab" id="signupTab">SIGN UP</button>
+            </div>
+            
+            <!-- Login Form -->
+            <form id="loginForm" class="tab-content active">
+                <input type="text" placeholder="Username" required id="loginUsername">
+                <input type="password" placeholder="Password" required id="loginPassword">
+                <button type="submit">LOGIN</button>
+            </form>
 
-  <div class="footer">
-    <h2>Join Our Channels</h2>
-    <div class="social-links">
-      <a href="https://t.me/TECHBYHUZII" target="_blank">Telegram</a>
-      <a href="https://whatsapp.com/channel/0029VaqyldOC6ZvZ6uSVmg2q" target="_blank">WhatsApp Channel</a>
+            <!-- Signup Form -->
+            <form id="signupForm" class="tab-content">
+                <input type="text" placeholder="Username" required id="signupUsername">
+                <input type="email" placeholder="Email" required id="signupEmail">
+                <input type="password" placeholder="Password" required id="signupPassword">
+                <input type="password" placeholder="Confirm Password" required id="signupConfirmPassword">
+                <button type="submit">CREATE ACCOUNT</button>
+            </form>
+        </div>
     </div>
-  </div>
 
-  <script>
-    async function sendWarning() {
-      const numbers = document.getElementById("numbers").value.trim().split(",");
-      const message = document.getElementById("message").value.trim();
-      const responseBox = document.getElementById("responseBox");
+    <!-- Social Media Fixed Icons -->
+    <div class="social-fixed">
+        <a href="https://wa.me/923407699974" class="social-icon" target="_blank">
+            <i class="fab fa-whatsapp"></i>
+        </a>
+        <a href="https://t.me/TECHBYHUZII" class="social-icon" target="_blank">
+            <i class="fab fa-telegram"></i>
+        </a>
+        <a href="https://whatsapp.com/channel/0029Vb2TegQ8aKvLcZs92Y3r" class="social-icon" target="_blank">
+            <i class="fab fa-whatsapp"></i>
+        </a>
+    </div>
 
-      if (!numbers.length || !message) {
-        alert("Please enter phone numbers and a message.");
-        return;
-      }
+    <!-- Footer -->
+    <footer>
+        <p>Trusted © 2020 to 2025 | Contact: 923407699974 (Easypaisa)</p>
+    </footer>
 
-      const requestBody = {
-        numbers: numbers,
-        message: message
-      };
+    <!-- Main Platform -->
+    <div class="platform">
+        <header>
+            <div class="platform-logo">BALOCH INVESTMENTS</div>
+            <div class="user-info">
+                <div class="balance">$<span id="currentBalance">0</span></div>
+                <button onclick="logout()" style="width: auto; padding: 0.5rem 1rem;">Logout</button>
+            </div>
+        </header>
 
-      try {
-        const res = await fetch('http://localhost:3000/send_warning', {  // Replace with your API URL
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(requestBody)
-        });
-        const result = await res.json();
+        <nav>
+            <div class="nav-btn active" onclick="showPlatformTab('plans')">Plans</div>
+            <div class="nav-btn" onclick="showPlatformTab('transactions')">Transactions</div>
+            <div class="nav-btn" onclick="showPlatformTab('withdraw')">Withdraw</div>
+            <div class="nav-btn" onclick="showPlatformTab('profile')">Profile</div>
+            <div class="nav-btn" id="adminNavBtn" style="display: none;" onclick="showPlatformTab('admin')">Admin</div>
+        </nav>
 
-        if (result.success) {
-          responseBox.innerHTML = "Warning sent successfully!";
-        } else {
-          responseBox.innerHTML = "Failed to send warnings.";
+        <!-- Plans Section -->
+        <div id="plans" class="section active">
+            <h2>Investment Plans</h2>
+            
+            <!-- Referral Information Box -->
+            <div class="ref-box">
+                <h3>REFERRAL INFORMATION</h3>
+                <p>Withdrawals don't require referrals! But if you refer others, you'll get bonus rewards.</p>
+                <p>When someone joins using your referral, send their username and email to the owner (923407699974) to claim your bonus.</p>
+                
+                <div class="ref-bonus-grid">
+                    <div class="ref-bonus-card">
+                        <h4>Silver Plan</h4>
+                        <p>1 Referral = 500 PKR</p>
+                    </div>
+                    <div class="ref-bonus-card">
+                        <h4>Gold Plan</h4>
+                        <p>1 Referral = 1000 PKR</p>
+                    </div>
+                    <div class="ref-bonus-card">
+                        <h4>Platinum Plan</h4>
+                    <p>1 Referral = 2000 PKR</p>
+                    </div>
+                    <div class="ref-bonus-card">
+                        <h4>Diamond Plan</h4>
+                       <p>1 Referral = 4000 PKR</p>
+                    </div>
+                </div>
+                
+                <p style="margin-top: 1rem; color: var(--gold);">Special Reward: Get 10 active referrals and receive gifts like Smart Watch, Air Board, and more!</p>
+            </div>
+
+            <div class="plans-grid">
+                <div class="plan-card">
+                    <div class="plan-card-content">
+                        <h3 class="plan-name">SILVER PLAN</h3>
+                        <p><strong>Investment:</strong> 2500 PKR</p>
+                        <p><strong>Return:</strong> 5000 PKR</p>
+                        <p><strong>Daily Profit:</strong> 500 PKR</p>
+                        <p><strong>Duration:</strong> 10 Days</p>
+                        <button onclick="showPlanModal('Silver', 2500, 5000, 250)">Activate Plan</button>
+                    </div>
+                </div>
+
+                <div class="plan-card">
+                    <div class="plan-card-content">
+                        <h3 class="plan-name">GOLD PLAN</h3>
+                        <p><strong>Investment:</strong> 5000 PKR</p>
+                        <p><strong>Return:</strong> 10000 PKR</p>
+                        <p><strong>Daily Profit:</strong> 1000 PKR</p>
+                        <p><strong>Duration:</strong> 10 Days</p>
+                        <button onclick="showPlanModal('Gold', 5000, 10000, 500)">Activate Plan</button>
+                    </div>
+                </div>
+
+                <div class="plan-card">
+                    <div class="plan-card-content">
+                        <h3 class="plan-name">PLATINUM PLAN</h3>
+                        <p><strong>Investment:</strong> 10000 PKR</p>
+                        <p><strong>Return:</strong> 20000 PKR</p>
+                        <p><strong>Daily Profit:</strong> 2000 PKR</p>
+                        <p><strong>Duration:</strong> 10 Days</p>
+                        <button onclick="showPlanModal('Platinum', 10000, 20000, 1000)">Activate Plan</button>
+                    </div>
+                </div>
+
+                <div class="plan-card">
+                    <div class="plan-card-content">
+                        <h3 class="plan-name">DIAMOND PLAN</h3>
+                        <p><strong>Investment:</strong> 20000 PKR</p>
+                        <p><strong>Return:</strong> 40000 PKR</p>
+                        <p><strong>Daily Profit:</strong> 4000 PKR</p>
+                        <p><strong>Duration:</strong> 10 Days</p>
+                        <button onclick="showPlanModal('Diamond', 20000, 40000, 2000)">Activate Plan</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Transactions Section -->
+        <div id="transactions" class="section">
+            <h2>Transaction History</h2>
+            <div id="transactionList"></div>
+        </div>
+
+        <!-- Withdraw Section -->
+        <div id="withdraw" class="section">
+            <h2>Withdraw Funds</h2>
+            <div class="withdraw-form">
+                <input type="number" id="withdrawAmount" placeholder="Enter amount to withdraw">
+                <button onclick="requestWithdrawal()">Submit Withdrawal</button>
+                <div id="withdrawMessage" style="margin-top: 1rem;"></div>
+            </div>
+        </div>
+
+        <!-- Profile Section -->
+        <div id="profile" class="section">
+            <h2>User Profile</h2>
+            <div style="margin-top: 1rem;">
+                <p><strong>Username:</strong> <span id="profileUsername"></span></p>
+                <p><strong>Email:</strong> <span id="profileEmail"></span></p>
+                <p><strong>Active Plan:</strong> <span id="profilePlan">None</span></p>
+                <p><strong>Total Investments:</strong> <span id="totalInvested">0</span> PKR</p>
+                <p><strong>Total Withdrawals:</strong> <span id="totalWithdrawn">0</span> PKR</p>
+                <p><strong>Referral Bonus:</strong> <span id="referralBonus">0</span> PKR</p>
+                <p><strong>Referral Code:</strong> <span id="referralCode"></span></p>
+            </div>
+        </div>
+
+        <!-- Admin Section -->
+        <div id="admin" class="section">
+            <h2>Admin Panel</h2>
+            <button onclick="approveAllWithdrawals()">Approve All Pending Withdrawals</button>
+            <div id="adminWithdrawals" style="margin-top: 1rem;"></div>
+        </div>
+    </div>
+
+    <!-- Plan Modal -->
+    <div class="modal" id="planModal">
+        <div class="modal-content">
+            <h2>Activate <span id="modalPlanName">Silver</span> Plan</h2>
+            <div style="margin: 1rem 0;">
+                <p>Send payment to: <span class="highlight">03407699974</span> (Easypaisa)</p>
+                <p>Account Name: <span class="highlight">HUZAIFA HARIS</span></p>
+                <p>Amount: <span id="modalPlanAmount">2500</span> PKR</p>
+                <p>Expected Return: <span id="modalPlanReturn">5000</span> PKR</p>
+                <input type="text" id="transactionId" placeholder="Transaction ID" style="height: 70px; font-size: 1.2rem;">
+                <input type="number" id="investmentAmount" placeholder="Amount Sent" style="height: 70px; font-size: 1.2rem;">
+                <p class="contact-warning">
+                    If payment not verified within 10 minutes, contact immediately on 03407699974<br>
+                    (WhatsApp calls only, messages will not be answered)
+                </p>
+            </div>
+            <div class="modal-buttons">
+                <button onclick="activatePlan()">Confirm Payment</button>
+                <button class="cancel-btn" onclick="closeModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Thank You Modal -->
+    <div class="thank-you-modal" id="thankYouModal">
+        <div class="thank-you-content">
+            <h2>Thank You For Your Trust!</h2>
+            <p>Your payment details have been submitted successfully.</p>
+            <p>Your plan will be activated within 10 minutes after verification.</p>
+            <button onclick="closeThankYouModal()">OK</button>
+        </div>
+    </div>
+
+    <!-- Warning Modal -->
+    <div class="warning-modal" id="warningModal">
+        <div class="warning-content">
+            <h2>IMPORTANT NOTICE</h2>
+            <p style="font-size: 1.2rem; margin: 1rem 0;">DO NOT CONTACT THE OWNER OF THIS WEBSITE</p>
+            <p style="font-size: 1.5rem; color: var(--neon-green); font-weight: bold;">Contact Only: 923407699974</p>
+            <p style="margin-top: 1rem;">Your plan will be activated automatically within 10 minutes.</p>
+            <p>Only contact if activation is delayed beyond 10 minutes.</p>
+            <button onclick="closeWarningModal()" style="margin-top: 1.5rem;">I Understand</button>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification">
+        <p id="notification-message"></p>
+    </div>
+
+    <script>
+        // User Management
+        let users = JSON.parse(localStorage.getItem('users')) || [];
+        let currentUser = null;
+        let selectedPlan = null;
+        let currentPlanDetails = null;
+
+        // User Data Structure
+        class UserData {
+            constructor() {
+                this.balance = 0;
+                this.activePlan = null;
+                this.transactions = [];
+                this.withdrawals = [];
+                this.totalInvested = 0;
+                this.totalWithdrawn = 0;
+                this.planStartDate = null;
+                this.planEndDate = null;
+                this.referrals = [];
+                this.referralBonus = 0;
+                this.referralCode = Math.random().toString(36).substring(2, 8).toUpperCase();
+            }
         }
-        responseBox.style.display = "block";
-      } catch (error) {
-        responseBox.innerHTML = "Error sending SMS.";
-        responseBox.style.display = "block";
-      }
+
+        // Auth Functions
+        document.getElementById('loginTab').addEventListener('click', function() {
+            loginTab.classList.add('active');
+            signupTab.classList.remove('active');
+            loginForm.classList.add('active');
+            signupForm.classList.remove('active');
+        });
+        
+        document.getElementById('signupTab').addEventListener('click', function() {
+            signupTab.classList.add('active');
+            loginTab.classList.remove('active');
+            signupForm.classList.add('active');
+            loginForm.classList.remove('active');
+        });
+
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('signupUsername').value.trim();
+            const email = document.getElementById('signupEmail').value.trim();
+            const password = document.getElementById('signupPassword').value;
+            const confirmPassword = document.getElementById('signupConfirmPassword').value;
+
+            if (users.some(user => user.username === username)) {
+                showNotification('Username already exists!', 'error');
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                showNotification('Passwords do not match!', 'error');
+                return;
+            }
+
+            const newUser = {
+                username,
+                email,
+                password,
+                data: new UserData(),
+                isAdmin: username.toLowerCase() === 'admin'
+            };
+
+            users.push(newUser);
+            localStorage.setItem('users', JSON.stringify(users));
+            showNotification('Account created successfully! Please login.', 'success');
+            loginTab.click();
+            this.reset();
+        });
+
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('loginUsername').value.trim();
+            const password = document.getElementById('loginPassword').value;
+
+            const user = users.find(u => u.username === username && u.password === password);
+            if (user) {
+                currentUser = user;
+                document.querySelector('.auth-container').style.display = 'none';
+                document.querySelector('.platform').style.display = 'block';
+                document.getElementById('adminNavBtn').style.display = user.isAdmin ? 'block' : 'none';
+                updateUI();
+                
+                // Check if user has active plan
+                if (user.data.activePlan) {
+                    startPlanProgress();
+                }
+            } else {
+                showNotification('Invalid username or password!', 'error');
+            }
+        });
+
+        function logout() {
+            currentUser = null;
+            document.querySelector('.platform').style.display = 'none';
+            document.querySelector('.auth-container').style.display = 'flex';
+            document.getElementById('loginForm').reset();
+        }
+
+        // Platform Functions
+        function showPlatformTab(tabId) {
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.section').forEach(section => section.classList.remove('active'));
+            
+            document.querySelector(`[onclick="showPlatformTab('${tabId}')"]`).classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+
+            if (tabId === 'transactions') renderTransactions();
+            if (tabId === 'admin') renderAdminWithdrawals();
+        }
+
+        function showPlanModal(plan, amount, planReturn, dailyProfit) {
+            selectedPlan = plan;
+            currentPlanDetails = {
+                name: plan,
+                amount: amount,
+                return: planReturn,
+                dailyProfit: dailyProfit
+            };
+            
+            document.getElementById('modalPlanName').textContent = plan;
+            document.getElementById('modalPlanAmount').textContent = amount;
+            document.getElementById('modalPlanReturn').textContent = planReturn;
+            document.getElementById('investmentAmount').value = amount;
+            document.getElementById('planModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('planModal').style.display = 'none';
+        }
+
+        function closeThankYouModal() {
+            document.getElementById('thankYouModal').style.display = 'none';
+        }
+
+        function closeWarningModal() {
+            document.getElementById('warningModal').style.display = 'none';
+        }
+
+        function activatePlan() {
+            const transactionId = document.getElementById('transactionId').value;
+            const amountSent = parseFloat(document.getElementById('investmentAmount').value);
+            
+            if (!transactionId || isNaN(amountSent)) {
+                showNotification('Please fill all fields', 'error');
+                return;
+            }
+
+            if (amountSent !== currentPlanDetails.amount) {
+                showNotification(`Amount must be exactly ${currentPlanDetails.amount} PKR`, 'error');
+                return;
+            }
+
+function activatePlan() {
+    const transactionId = document.getElementById('transactionId').value;
+    const amountSent = parseFloat(document.getElementById('investmentAmount').value);
+    
+    if (!transactionId || isNaN(amountSent)) {
+        showNotification('Please fill all fields', 'error');
+        return;
     }
-  </script>
-</body>
-</html>
+
+    // Create transaction
+    const transaction = {
+        id: transactionId,
+        type: 'Investment',
+        plan: currentPlanDetails.name,
+        amount: currentPlanDetails.amount,
+        return: currentPlanDetails.return,
+        date: new Date().toLocaleString(),
+        status: 'Pending Activation'
+    };
+
+    currentUser.data.transactions.push(transaction);
+    currentUser.data.totalInvested += currentPlanDetails.amount;
+    
+    localStorage.setItem('users', JSON.stringify(users));
+    updateUI();
+    closeModal();
+    
+    // Show warning modal for 20 seconds
+    document.getElementById('warningModal').style.display = 'flex';
+    
+    // Auto-hide after 20 seconds
+    setTimeout(() => {
+        closeWarningModal();
+    }, 20000);
+    
+    // Show thank you modal
+    document.getElementById('thankYouModal').style.display = 'flex';
+    
+    // Simulate plan activation after 1 hour (for demo)
+    setTimeout(() => {
+        completePlanActivation(transactionId);
+    }, 1000);
+}
+
+function completePlanActivation(transactionId) {
+    const transaction = currentUser.data.transactions.find(t => t.id === transactionId);
+    if (transaction) {
+        transaction.status = 'Active';
+        
+        currentUser.data.activePlan = {
+            name: currentPlanDetails.name,
+            amount: currentPlanDetails.amount,
+            return: currentPlanDetails.return,
+            dailyProfit: currentPlanDetails.dailyProfit,
+            startDate: new Date(),
+            endDate: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000) // 10 days from now
+        };
+        
+        localStorage.setItem('users', JSON.stringify(users));
+        updateUI();
+        startPlanProgress();
+        
+        showNotification('Plan activated successfully! Your profit will be added after 24 hours.', 'success');
+    }
+}
+
+function startPlanProgress() {
+    if (!currentUser.data.activePlan) return;
+    
+    // Calculate daily profit and update balance
+    const dailyProfit = currentUser.data.activePlan.dailyProfit;
+    const now = new Date();
+    const startDate = new Date(currentUser.data.activePlan.startDate);
+    const daysPassed = Math.floor((now - startDate) / (1000 * 60 * 60 * 24));
+    
+    if (daysPassed > 0) {
+        const profitEarned = daysPassed * dailyProfit;
+        currentUser.data.balance = profitEarned;
+        localStorage.setItem('users', JSON.stringify(users));
+        updateUI();
+    }
+}
+
+function requestWithdrawal() {
+    const amount = parseFloat(document.getElementById('withdrawAmount').value);
+    
+    if (isNaN(amount)) {
+        showNotification('Please enter a valid amount', 'error');
+        return;
+    }
+
+    if (amount > currentUser.data.balance) {
+        showNotification('Insufficient balance', 'error');
+        return;
+    }
+
+    const withdrawal = {
+        amount: amount,
+        date: new Date().toLocaleString(),
+        status: 'Pending'
+    };
+
+    currentUser.data.withdrawals.push(withdrawal);
+    currentUser.data.totalWithdrawn += amount;
+    currentUser.data.balance -= amount;
+    
+    localStorage.setItem('users', JSON.stringify(users));
+    
+    document.getElementById('withdrawMessage').textContent = `Withdrawal request of ${amount} PKR submitted!`;
+    document.getElementById('withdrawAmount').value = '';
+    updateUI();
+    showNotification('Withdrawal request submitted!', 'success');
+}
+
+function approveAllWithdrawals() {
+    if (!currentUser.isAdmin) return;
+
+    let totalApproved = 0;
+    users.forEach(user => {
+        user.data.withdrawals.forEach(w => {
+            if (w.status === 'Pending') {
+                w.status = 'Approved';
+                totalApproved += w.amount;
+            }
+        });
+    });
+
+    localStorage.setItem('users', JSON.stringify(users));
+    renderAdminWithdrawals();
+    showNotification(`Approved all pending withdrawals (Total: ${totalApproved} PKR)`, 'success');
+}
+
+// UI Update Functions
+function updateUI() {
+    if (!currentUser) return;
+    
+    // Update balance
+    document.getElementById('currentBalance').textContent = currentUser.data.balance.toFixed(2);
+    
+    // Update profile
+    document.getElementById('profileUsername').textContent = currentUser.username;
+    document.getElementById('profileEmail').textContent = currentUser.email;
+    
+    if (currentUser.data.activePlan) {
+        document.getElementById('profilePlan').textContent = `${currentUser.data.activePlan.name} Plan`;
+    } else {
+        document.getElementById('profilePlan').textContent = 'None';
+    }
+    
+    document.getElementById('totalInvested').textContent = currentUser.data.totalInvested.toFixed(2);
+    document.getElementById('totalWithdrawn').textContent = currentUser.data.totalWithdrawn.toFixed(2);
+    document.getElementById('referralBonus').textContent = currentUser.data.referralBonus.toFixed(2);
+    document.getElementById('referralCode').textContent = currentUser.data.referralCode;
+    
+    // Update transactions if on that tab
+    if (document.getElementById('transactions').classList.contains('active')) {
+        renderTransactions();
+    }
+}
+
+function renderTransactions() {
+    const container = document.getElementById('transactionList');
+    container.innerHTML = '';
+    
+    if (currentUser.data.transactions.length === 0) {
+        container.innerHTML = '<p>No transactions yet</p>';
+        return;
+    }
+
+    currentUser.data.transactions.forEach(tx => {
+        const txElement = document.createElement('div');
+        txElement.className = 'transaction-item';
+        txElement.innerHTML = `
+            <p><strong>${tx.type}</strong> - ${tx.plan} Plan</p>
+            <p>Amount: ${tx.amount} PKR</p>
+            <p>Expected Return: ${tx.return} PKR</p>
+            <p>Date: ${tx.date}</p>
+            <p>Status: ${tx.status}</p>
+        `;
+        container.appendChild(txElement);
+    });
+}
+
+function renderAdminWithdrawals() {
+    if (!currentUser.isAdmin) return;
+
+    const container = document.getElementById('adminWithdrawals');
+    container.innerHTML = '';
+    
+    // Collect all withdrawals from all users
+    let allWithdrawals = [];
+    users.forEach(user => {
+        user.data.withdrawals.forEach(w => {
+            allWithdrawals.push({
+                username: user.username,
+                amount: w.amount,
+                date: w.date,
+                status: w.status
+            });
+        });
+    });
+
+    if (allWithdrawals.length === 0) {
+        container.innerHTML = '<p>No withdrawal requests</p>';
+        return;
+    }
+
+    // Sort by date (newest first)
+    allWithdrawals.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+    allWithdrawals.forEach(w => {
+        const wElement = document.createElement('div');
+        wElement.className = 'admin-item';
+        wElement.innerHTML = `
+            <div>
+                <p><strong>${w.username}</strong> - ${w.amount} PKR</p>
+                <p>${w.date} - Status: ${w.status}</p>
+            </div>
+        `;
+        container.appendChild(wElement);
+    });
+}
+
+// Notification System
+function showNotification(message, type) {
+    const notification = document.getElementById('notification');
+    notification.style.display = 'block';
+    notification.className = `notification ${type}`;
+    document.getElementById('notification-message').textContent = message;
+    
+    setTimeout(() => {
+        notification.style.display = 'none';
+    }, 5000);
+}
+
+// Initialize
+if (users.length === 0) {
+    // Create default admin user
+    const adminUser = {
+        username: 'admin',
+        email: 'admin@baloch.com',
+        password: 'admin123',
+        isAdmin: true,
+        data: new UserData()
+    };
+    
+    // Create demo user
+    const demoUser = {
+        username: 'demo',
+        email: 'demo@baloch.com',
+        password: 'demo123',
+        isAdmin: false,
+        data: new UserData()
+    };
+    
+    users.push(adminUser, demoUser);
+    localStorage.setItem('users', JSON.stringify(users));
+}
