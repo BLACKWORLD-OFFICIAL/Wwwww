@@ -8,43 +8,38 @@
       background-color: #000;
       font-family: 'Segoe UI', sans-serif;
       color: #0f0;
+      text-align: center;
       margin: 0;
       padding: 0;
-      text-align: center;
-      overflow-x: hidden;
     }
 
     h1 {
-      font-size: 3em;
-      margin-top: 40px;
+      font-size: 2.5em;
+      margin-top: 30px;
       color: #0ff;
       text-shadow: 0 0 20px #0ff, 0 0 30px #00f;
       animation: flicker 2s infinite;
     }
 
     @keyframes flicker {
-      0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
-        text-shadow: 0 0 20px #0ff, 0 0 30px #00f;
-      }
-      20%, 24%, 55% {
-        text-shadow: none;
-      }
+      0%, 100%, 50% { text-shadow: 0 0 20px #0ff, 0 0 30px #00f; }
+      25%, 75% { text-shadow: none; }
     }
 
     .form-container {
-      margin: 40px auto;
+      margin: 30px auto;
       width: 90%;
       max-width: 500px;
-      padding: 30px;
+      padding: 20px;
       border: 2px solid #0ff;
-      border-radius: 20px;
-      box-shadow: 0 0 20px #0ff;
+      border-radius: 15px;
       background: rgba(0, 255, 255, 0.05);
+      box-shadow: 0 0 15px #0ff;
     }
 
     input {
       width: 90%;
-      padding: 15px;
+      padding: 12px;
       margin: 10px 0;
       font-size: 1em;
       border-radius: 10px;
@@ -55,21 +50,20 @@
     }
 
     button {
-      padding: 12px 30px;
+      padding: 10px 25px;
       background: #00f;
       color: #fff;
       font-size: 1em;
       border: none;
       border-radius: 10px;
       cursor: pointer;
-      margin-top: 10px;
       transition: 0.3s;
-      box-shadow: 0 0 10px #00f, 0 0 20px #00f;
+      box-shadow: 0 0 15px #00f;
     }
 
     button:hover {
       background: #0ff;
-      box-shadow: 0 0 20px #0ff, 0 0 30px #0ff;
+      box-shadow: 0 0 25px #0ff;
     }
 
     .result {
@@ -103,7 +97,7 @@
   <h1>BLACK WORLD SIM DATA</h1>
 
   <div class="form-container">
-    <input type="text" id="input" placeholder="Enter Phone Number (03...) or CNIC (13 digit)">
+    <input type="text" id="input" placeholder="Enter Phone Number or CNIC">
     <button onclick="searchData()">Search</button>
   </div>
 
@@ -118,13 +112,10 @@
       const isNumber = /^03[0-9]{9}$/.test(input);
 
       if (!isCnic && !isNumber) {
-        return alert("Invalid input. Use 03XXXXXXXXX for number or 13-digit CNIC.");
+        return alert("Invalid input. Use 13-digit CNIC or 03XXXXXXXXX");
       }
 
-      const url = isCnic
-        ? `https://blackworld-sim-api.vercel.app?cnic=${input}`
-        : `https://blackworld-sim-api.vercel.app?number=${input}`;
-
+      const url = `https://blackworld-sim-api.vercel.app?num=${input}`;
       const resBox = document.getElementById("result");
       resBox.style.display = "none";
       resBox.innerHTML = "Loading...";
@@ -137,25 +128,26 @@
           resBox.innerHTML = `<div class="entry"><strong>❌ Data Not Found</strong></div>`;
         } else {
           let html = "";
-          if (isCnic) {
+          if (isNumber) {
+            const d = data.data[0];
             html += `<div class="entry">
-              <strong>Name:</strong> ${data.data[0].Name}<br>
-              <strong>CNIC:</strong> ${data.data[0].CNIC}<br>
-              <strong>Address:</strong> ${data.data[0].Address || "N/A"}<br>
-              <hr><strong>Numbers on this CNIC:</strong><br>
+              ✰ <strong>Name:</strong> ${d.Name}<br>
+              ✰ <strong>Mobile:</strong> ${d.Number}<br>
+              ✰ <strong>CNIC:</strong> ${d.CNIC}<br>
+              ✰ <strong>Operator:</strong> ${d.Operator || "N/A"}<br>
+              ✰ <strong>Address:</strong> ${d.Address || "N/A"}
+            </div>`;
+          } else {
+            const d = data.data[0];
+            html += `<div class="entry">
+              ✰ <strong>Name:</strong> ${d.Name}<br>
+              ✰ <strong>CNIC:</strong> ${d.CNIC}<br>
+              ✰ <strong>Address:</strong> ${d.Address || "N/A"}<br>
+              <hr><strong>Numbers Registered:</strong><br>
             </div>`;
             data.data.forEach((item, i) => {
-              html += `<div class="entry">
-                <strong>#${i + 1}:</strong> ${item.Number}
-              </div>`;
+              html += `<div class="entry">#${i + 1} ➤ ${item.Number}</div>`;
             });
-          } else {
-            html += `<div class="entry">
-              <strong>Name:</strong> ${data.data[0].Name}<br>
-              <strong>CNIC:</strong> ${data.data[0].CNIC}<br>
-              <strong>Number:</strong> ${data.data[0].Number}<br>
-              <strong>Address:</strong> ${data.data[0].Address || "N/A"}
-            </div>`;
           }
           resBox.innerHTML = html;
         }
