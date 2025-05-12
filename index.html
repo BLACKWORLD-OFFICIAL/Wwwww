@@ -2,98 +2,55 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>BLACK WORLD 🌚 | SIM DATA CHECKER</title>
+  <title>BLACK WORLD1 | SIM DATA</title>
   <style>
     body {
       background-color: #000;
       font-family: 'Segoe UI', sans-serif;
       color: #0f0;
+      text-align: center;
       margin: 0;
       padding: 0;
-      text-align: center;
     }
-
     h1 {
-      font-size: 3em;
+      color: cyan;
       margin-top: 40px;
-      color: #0ff;
-      text-shadow: 0 0 20px #0ff, 0 0 30px #00f;
-      animation: flicker 2s infinite;
+      text-shadow: 0 0 10px cyan;
     }
-
-    @keyframes flicker {
-      0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
-        text-shadow: 0 0 20px #0ff, 0 0 30px #00f;
-      }
-      20%, 24%, 55% {
-        text-shadow: none;
-      }
-    }
-
     .form-container {
-      margin: 40px auto;
-      width: 90%;
-      max-width: 500px;
-      padding: 30px;
-      border: 2px solid #0ff;
-      border-radius: 20px;
-      box-shadow: 0 0 20px #0ff;
-      background: rgba(0, 255, 255, 0.05);
+      margin-top: 40px;
     }
-
     input {
-      width: 90%;
-      padding: 15px;
-      margin: 10px 0;
+      padding: 10px;
       font-size: 1em;
+      width: 250px;
+      border: 1px solid cyan;
       border-radius: 10px;
-      border: 1px solid #0ff;
       background: #000;
       color: #0f0;
-      box-shadow: 0 0 10px #0ff inset;
     }
-
     button {
-      padding: 12px 30px;
-      background: #00f;
-      color: #fff;
-      font-size: 1em;
+      padding: 10px 20px;
+      background: cyan;
       border: none;
       border-radius: 10px;
+      margin-left: 10px;
       cursor: pointer;
-      margin-top: 10px;
-      transition: 0.3s;
-      box-shadow: 0 0 10px #00f, 0 0 20px #00f;
     }
-
-    button:hover {
-      background: #0ff;
-      box-shadow: 0 0 20px #0ff, 0 0 30px #0ff;
-    }
-
     .result {
       margin-top: 30px;
       padding: 20px;
-      border-radius: 10px;
-      background: rgba(0, 255, 0, 0.1);
-      box-shadow: 0 0 20px #0f0;
       max-width: 600px;
       margin-left: auto;
       margin-right: auto;
+      color: #0f0;
     }
-
     .entry {
-      padding: 15px;
       margin: 10px 0;
-      background: rgba(0, 0, 0, 0.7);
-      border-left: 5px solid #0ff;
+      padding: 15px;
+      background: rgba(0,255,0,0.1);
+      border-left: 5px solid cyan;
       text-align: left;
-      animation: fadeIn 0.5s ease-in-out;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
@@ -102,7 +59,7 @@
   <h1>BLACK WORLD SIM DATA</h1>
 
   <div class="form-container">
-    <input type="text" id="input" placeholder="Enter Phone Number (03...) or CNIC">
+    <input type="text" id="input" placeholder="Enter Number or CNIC (no dashes)">
     <button onclick="searchData()">Search</button>
   </div>
 
@@ -111,51 +68,35 @@
   <script>
     async function searchData() {
       const input = document.getElementById("input").value.trim();
-      if (!input) return alert("Please enter a number or CNIC");
+      const resultDiv = document.getElementById("result");
+      resultDiv.style.display = "block";
+      resultDiv.innerHTML = "Loading...";
 
-      const url = `https://blackworld-sim-api.vercel.app/?num=${input}`;
-      const resBox = document.getElementById("result");
-      resBox.style.display = "none";
-      resBox.innerHTML = "Loading...";
+      if (!input) return alert("Please enter number or CNIC");
 
       try {
-        const res = await fetch(url);
+        const res = await fetch(`https://blackworld-sim-api.vercel.app/?num=${input}`);
         const data = await res.json();
 
-        if (!data || !data.data || data.data[0].Name.includes("Not Found")) {
-          resBox.innerHTML = `<div class="entry"><strong>❌ Data Not Found</strong></div>`;
+        if (!data || !data.data || data.data[0].Name === "❌ Data Not Found") {
+          resultDiv.innerHTML = `<div class="entry">❌ Data Not Found</div>`;
         } else {
           let html = "";
-          const isCnic = /^[0-9]{13}$/.test(input);
-
-          if (isCnic) {
-            html += `<div class="entry">
-              <strong>Name:</strong> ${data.data[0].Name}<br>
-              <strong>CNIC:</strong> ${data.data[0].CNIC}<br>
-              <strong>Address:</strong> ${data.data[0].Address || "N/A"}<br>
-              <hr><strong>Numbers on this CNIC:</strong><br>
-            </div>`;
+          if (input.length === 13) {
+            html += `<div class="entry"><strong>Name:</strong> ${data.data[0].Name}<br><strong>CNIC:</strong> ${data.data[0].CNIC}<br><strong>Address:</strong> ${data.data[0].Address || "N/A"}</div>`;
+            html += `<div><strong>Numbers:</strong></div>`;
             data.data.forEach((item, i) => {
-              html += `<div class="entry">
-                <strong>#${i + 1}:</strong> ${item.Number} (${item.Operator || "Unknown"})
-              </div>`;
+              html += `<div class="entry">#${i + 1}: ${item.Number}</div>`;
             });
           } else {
-            html += `<div class="entry">
-              <strong>Name:</strong> ${data.data[0].Name}<br>
-              <strong>CNIC:</strong> ${data.data[0].CNIC}<br>
-              <strong>Number:</strong> ${data.data[0].Number}<br>
-              <strong>Operator:</strong> ${data.data[0].Operator || "N/A"}<br>
-              <strong>Address:</strong> ${data.data[0].Address || "N/A"}
-            </div>`;
+            const d = data.data[0];
+            html = `<div class="entry"><strong>Name:</strong> ${d.Name}<br><strong>Mobile:</strong> ${d.Number}<br><strong>CNIC:</strong> ${d.CNIC}<br><strong>Address:</strong> ${d.Address || "N/A"}<br><strong>Operator:</strong> ${d.Operator}</div>`;
           }
-          resBox.innerHTML = html;
+          resultDiv.innerHTML = html;
         }
-        resBox.style.display = "block";
-      } catch (err) {
-        resBox.innerHTML = `<div class="entry">Server Error. Try again later.</div>`;
-        resBox.style.display = "block";
-        console.error(err);
+      } catch (error) {
+        resultDiv.innerHTML = `<div class="entry">Server Error. Try again later.</div>`;
+        console.error(error);
       }
     }
   </script>
