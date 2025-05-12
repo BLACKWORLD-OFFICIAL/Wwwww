@@ -103,7 +103,7 @@
   <h1>BLACK WORLD SIM DATA</h1>
 
   <div class="form-container">
-    <input type="text" id="input" placeholder="Enter Phone Number or CNIC">
+    <input type="text" id="input" placeholder="Enter Phone Number (03...) or CNIC (13 digit)">
     <button onclick="searchData()">Search</button>
   </div>
 
@@ -115,6 +115,12 @@
       if (!input) return alert("Please enter a number or CNIC");
 
       const isCnic = /^[0-9]{13}$/.test(input);
+      const isNumber = /^03[0-9]{9}$/.test(input);
+
+      if (!isCnic && !isNumber) {
+        return alert("Invalid input. Use 03XXXXXXXXX for number or 13-digit CNIC.");
+      }
+
       const url = isCnic
         ? `https://blackworld-sim-api.vercel.app?cnic=${input}`
         : `https://blackworld-sim-api.vercel.app?number=${input}`;
@@ -161,6 +167,5 @@
       }
     }
   </script>
-
 </body>
 </html>
